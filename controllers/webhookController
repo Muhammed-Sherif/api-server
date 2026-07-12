@@ -15,7 +15,7 @@ console.log("Body Length:", req.body.length);
   console.log(`raw event: ${event}`);
   const isSignatureValid = await verifySignature(event, headers);
   if (isSignatureValid) {
-      Reservation.findOneAndUpdate(
+      await Reservation.findOneAndUpdate(
         { paypalOrderId: data?.resource?.id },
         { status: data?.resource?.status },
         { returnDocument: 'after'}
