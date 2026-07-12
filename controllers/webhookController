@@ -5,9 +5,6 @@ import fs from "fs/promises";
 import fetch from "node-fetch";
 import Reservation from '../models/reservationModel.js'
 export const handlePaypalWebhook = async (req, res) => {
-  console.log("WEBHOOK_ID:", process.env.WEBHOOK_ID);
-
-console.log("Buffer:", Buffer.isBuffer(req.body));
 
 console.log("Body Length:", req.body.length);
   const headers = req.headers;
@@ -32,7 +29,7 @@ async function verifySignature(event, headers) {
   const transmissionId = headers['paypal-transmission-id']
   const timeStamp = headers['paypal-transmission-time']
   const crc = parseInt("0x" + crc32(event).toString('hex')); // hex crc32 of raw event data, parsed to decimal form
-  const message = `${transmissionId}|${timeStamp}|${WEBHOOK_ID}|${crc}`
+  const message = `${transmissionId}|${timeStamp}|${process.env.WEBHOOK_ID}|${crc}`
   console.log(`Original signed message ${message}`);
   const certPem = await downloadAndCache(headers['paypal-cert-url']);
   // Create buffer from base64-encoded signature
