@@ -9,13 +9,13 @@ import userRouter from './routes/userRoutes.js';
 import globalErrorHandler from './controllers/errorController.js';
 import reservationRouter from './routes/reservationRoutes.js';
 import AppError from './utils/AppError.js';
-import bodyParser from "body-parser";
 import cors from 'cors';
 import webhookRouter from './routes/webhookRoutes.js'
 import cookieParser from 'cookie-parser';
 
 const app = express();
 
+app.set('trust proxy', 1);
 // middlewares 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -38,7 +38,6 @@ app.use(cors(
         credentials: true,
     }
 ));
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser())
 // app.use(express.static(`${__dirname}/public`));

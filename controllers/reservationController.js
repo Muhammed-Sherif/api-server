@@ -27,6 +27,7 @@ export const getAllReservations = async (req, res) => {
     });
 }
 export const createReservationForService = async (req, res) => {
+      // Cookies that have not been signed
     req.body.services.forEach(item => {
         if (!Service.findById(item.serviceId)) {
             res.status(404).json({

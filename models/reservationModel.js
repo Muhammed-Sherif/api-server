@@ -65,8 +65,8 @@ reservationSchema.post('save', async function (doc, next) {
   ]);
   next();
 });
-reservationSchema.pre(/^find/, async function () {
-  await this.populate('user')
+reservationSchema.pre(/^find/, function () {
+   this.populate('user')
       .populate('services.serviceId');
 });
 export default model('Reservation', reservationSchema);
