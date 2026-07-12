@@ -1,10 +1,9 @@
 import "dotenv/config";
- 
 import crypto from "crypto"
 import CRC32 from "crc-32";
 import fs from "fs/promises";
 import fetch from "node-fetch";
-import Reservation from '../models/reservationModel'
+import Reservation from '../models/reservationModel.js'
 export const handlePaypalWebhook = async (req, res) => {
  
   const headers = req.headers;
