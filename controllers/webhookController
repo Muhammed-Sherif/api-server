@@ -5,9 +5,8 @@ import fs from "fs/promises";
 import fetch from "node-fetch";
 import Reservation from '../models/reservationModel.js'
 export const handlePaypalWebhook = async (req, res) => {
-  console.log(req);
-  const headers = request.headers;
-  const event = request.body;
+  const headers = req.headers;
+  const event = req.body;
   const data = JSON.parse(event)
   console.log(`headers`, headers);
   console.log(`parsed json`, JSON.stringify(data, null, 2));
@@ -22,7 +21,7 @@ export const handlePaypalWebhook = async (req, res) => {
     // Reject processing the webhook event. May wish to log all headers+data for debug purposes.
   }
   // Return a 200 response to mark successful webhook delivery
-  response.sendStatus(200);
+  res.sendStatus(200);
 };
 async function verifySignature(event, headers) {
   const transmissionId = headers['paypal-transmission-id']

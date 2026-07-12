@@ -38,6 +38,7 @@ app.use(cors(
         credentials: true,
     }
 ));
+app.use('/api/v1/webhooks', webhookRouter)
 app.use(express.json());
 app.use(cookieParser())
 // app.use(express.static(`${__dirname}/public`));
@@ -50,7 +51,6 @@ app.use('/api/v1/services', serviceRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reservations', reservationRouter);
 app.use('/api/orders', reservationRouter);
-app.use('/api/v1/webhooks', webhookRouter)
 app.use((req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
