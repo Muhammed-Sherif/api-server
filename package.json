@@ -9,9 +9,9 @@
   "dependencies": {
     "@paypal/paypal-server-sdk": "^2.4.0",
     "bcryptjs": "^3.0.3",
+    "buffer-crc32": "^1.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
-    "crc-32": "^1.2.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-mongo-sanitize": "^2.2.0",
