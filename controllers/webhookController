@@ -46,7 +46,7 @@ async function downloadAndCache(url, cacheKey = null) {
   if (!cacheKey) {
     cacheKey = url.replace(/\W+/g, '-')
   }
-  const CACHE_DIR = `${__dirname}/../cache`;
+  const CACHE_DIR = `${import.meta.dirname}/../cache`;
   const filePath = `${CACHE_DIR}/${cacheKey}`;
 
   // Check if cached file exists
