@@ -1,19 +1,24 @@
 module.exports = {
-  apps : [{
+  apps: [{
     name: 'api-reservations',
     script: './server.js',
-    watch: '.'
+    watch: '.',
+    env: {
+        NODE_ENV: "development",
+    },
+    env_production: {
+      NODE_ENV: "production"
+    }
   }],
-
-  deploy : {
-    production : {
-      user : 'muhammed_shereaf', 
-      host : '165.22.16.244',
-      ref  : 'origin/main',
-      repo : 'git@github.com:Muhammed-Sherif/api-server.git',
-      path : '/var/www/projects/reservations',
+  deploy: {
+    production: {
+      user: 'muhammed_shereaf',
+      host: '165.22.16.244',
+      ref: 'origin/main',
+      repo: 'git@github.com:Muhammed-Sherif/api-server.git',
+      path: '/var/www/projects/reservations',
       'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.cjs --env production',
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.cjs --env production',
       'pre-setup': ''
     }
   }
