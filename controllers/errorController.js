@@ -42,7 +42,7 @@ const sendErrorProd = (err , res) => {
         });
     } else{
         console.error('ERROR 💥', err);
-        res.status(500).json({
+        res.status(500).json({  
             status: 'error',
             message: 'Something went wrong!'
         });
@@ -55,6 +55,7 @@ export default (err, req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         sendErrorDev(err, res);
     } else if (process.env.NODE_ENV === 'production') {
+        console.error('ERROR 💥', err);
         let error = { ...err };
         if (error.name === 'CastError') error = handleCastErrorDB(error);
         if (error.code === 11000) error = handleDuplicateFieldsDB(error);
