@@ -1,4 +1,4 @@
-import express from 'express'; 
+import express from 'express';
 import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit'
 import helmet from "helmet";
@@ -17,13 +17,13 @@ import cookieParser from 'cookie-parser';
 const app = express();
 
 // middlewares 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
-	limit: 1000,
-	message: 'Too many requests from this IP, please try again in an hour!', 
+    windowMs: 15 * 60 * 1000,
+    limit: 1000,
+    message: 'Too many requests from this IP, please try again in an hour!',
 })
 
 app.use(helmet());
@@ -32,7 +32,12 @@ app.use(hpp());
 app.use('/api', limiter);
 
 // app.use(mongoSanitize());
-app.use(cors());
+app.use(cors(
+    {
+        origin: 'https://services-store.vercel.app',
+        credentials: true,
+    }
+));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser())
@@ -46,7 +51,7 @@ app.use('/api/v1/services', serviceRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reservations', reservationRouter);
 app.use('api/orders', reservationRouter);
-app.use('api/v1/webhooks' , webhookRouter)
+app.use('api/v1/webhooks', webhookRouter)
 app.use((req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
