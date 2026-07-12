@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import fetch from "node-fetch";
 import Reservation from '../models/reservationModel.js'
 export const handlePaypalWebhook = async (req, res) => {
+  console.log(req);
   const headers = request.headers;
   const event = request.body;
   const data = JSON.parse(event)
