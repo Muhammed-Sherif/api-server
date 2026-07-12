@@ -12,6 +12,7 @@ import AppError from './utils/AppError.js';
 import bodyParser from "body-parser";
 import cors from 'cors';
 import webhookRouter from './routes/webhookRoutes.js'
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api', limiter);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cookieParser())
 // app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
