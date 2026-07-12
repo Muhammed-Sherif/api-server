@@ -48,6 +48,11 @@ const reservationSchema = new Schema({
             }
         }
     ],
+    paypalOrderId: {
+            type: String,
+            unique: true,
+            sparse: true
+    },
     reservationDate: {
         type: Date,
         required: [true, 'Reservation date is required'],

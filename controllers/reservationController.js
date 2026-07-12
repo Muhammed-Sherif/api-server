@@ -58,7 +58,7 @@ export const createReservationForService = async (req, res) => {
         customerInfo: req.body.customerInfo,
     });
     const { jsonResponse, httpStatusCode } = await createPaymentSession("PAYPAL", newReservation, req.user.id);
-
+    Reservation.findByIdAndUpdate(newReservation._id, { paypalOrderId: jsonResponse?.id });
     res.status(httpStatusCode).json(jsonResponse);
 }
 const createPaymentSession = async (paymentMethod, reservation, userId) => {
