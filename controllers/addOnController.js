@@ -14,7 +14,7 @@ export const getAllAddOns = async (req, res) => {
 export const createAddOn = async (req, res) => {
     console.log(req.body);
     const newAddOn = await AddOn.create({
-        label: req.body.label,
+        title: req.body.title,
         description: req.body.description,
         price: req.body.price
     });
@@ -29,7 +29,7 @@ export const createAddOn = async (req, res) => {
 export const updateAddOn = async (req, res) => {
 
     const payload = {
-        label: req.body.label,
+        title: req.body.title,
         description: req.body.description,
         price: req.body.price
     };
@@ -65,7 +65,7 @@ export const getAddOn = async (req, res) => {
 export const updateAddOn = async (req, res) => {
 
     const payload = {
-        label: req.body.label,
+        title: req.body.title,
         description: req.body.description,
         price: req.body.price
     };

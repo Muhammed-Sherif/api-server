@@ -34,7 +34,7 @@ const reservationSchema = new Schema({
     ,
     addOns: [
         {
-            label: {
+            title: {
                 type: String,
                 required: true
             } ,

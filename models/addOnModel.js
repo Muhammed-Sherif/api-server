@@ -1,7 +1,7 @@
 import {Schema, model} from 'mongoose';
 
 const addOnSchema = new Schema({
-    label: {
+    title: {
         type: String,
         required: true,
         unique: true
