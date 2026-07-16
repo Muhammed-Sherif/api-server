@@ -73,13 +73,13 @@ const reservationSchema = new Schema({
 )
 reservationSchema.post('save', async function (doc, next) {
     await doc.populate([
-        { path: 'services.serviceId' },
+        { path: 'services.id' },
         { path: 'user' },
     ]);
     next();
 });
 reservationSchema.pre(/^find/, function () {
     this.populate('user')
-        .populate('services.serviceId');
+        .populate('services.id');
 });
 export default model('Reservation', reservationSchema);
