@@ -3,12 +3,12 @@ import { Schema, model } from 'mongoose';
 const reservationSchema = new Schema({
     services: [
         {
-          id: {
+            id: {
                 type: Schema.Types.ObjectId,
                 ref: 'Service',
-                required: [true, 'Service is required'],   
+                required: [true, 'Service is required'],
             }
-        , quantity: {
+            , quantity: {
                 type: Number,
                 required: [true, 'Quantity is required'],
                 default: 1
@@ -21,8 +21,18 @@ const reservationSchema = new Schema({
         required: [true, 'User is required'],
     },
     details: {
-        type: String,
-        required: [true, 'Details are required']
+        projectDescription: {
+            type: String,
+            required: true
+        },
+        budget: {
+            type: String,
+            required: true
+        },
+        deadline: {
+            type: String,
+            required: true
+        }
     },
     status: {
         type: String,
@@ -35,11 +45,11 @@ const reservationSchema = new Schema({
             title: {
                 type: String,
                 required: true
-            } ,
+            },
             description: {
                 type: String,
                 required: true
-            } ,
+            },
             price: {
                 type: Number,
                 required: true
@@ -47,9 +57,9 @@ const reservationSchema = new Schema({
         }
     ],
     paypalOrderId: {
-            type: String,
-            unique: true,
-            sparse: true
+        type: String,
+        unique: true,
+        sparse: true
     },
     reservationDate: {
         type: Date,
@@ -62,14 +72,14 @@ const reservationSchema = new Schema({
     }
 )
 reservationSchema.post('save', async function (doc, next) {
-  await doc.populate([
-    { path: 'services.serviceId' },
-    { path: 'user' },
-  ]);
-  next();
+    await doc.populate([
+        { path: 'services.serviceId' },
+        { path: 'user' },
+    ]);
+    next();
 });
 reservationSchema.pre(/^find/, function () {
-   this.populate('user')
-      .populate('services.serviceId');
+    this.populate('user')
+        .populate('services.serviceId');
 });
 export default model('Reservation', reservationSchema);
