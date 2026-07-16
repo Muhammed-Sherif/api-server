@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import Service from '../models/serviceModel.js';
+import  AddOn  from '../models/addOnModel.js';
 import Reservation from '../models/reservationModel.js';
 import {
     ApiError,
@@ -29,7 +30,7 @@ export const getAllReservations = async (req, res) => {
 export const createReservationForService = async (req, res) => {
     // validate services exists
     const servicesIds = req.body.services.map((service) => service.id)
-    const services = await Services.find({
+    const services = await Service.find({
         _id: { $in: servicesIds }
     })
     if(services.length !== servicesIds.length) {
@@ -40,7 +41,7 @@ export const createReservationForService = async (req, res) => {
     }
     // validate addons exists 
     const addOnsIds = req.body.addOns.map((addOn) => addOn.id)
-    const addOns = await AddOns.find({
+    const addOns = await AddOn.find({
         _id: { $in: addOnsIds }
     })
     if(addOns.length !== addOnsIds.length) {
@@ -61,7 +62,7 @@ export const createReservationForService = async (req, res) => {
     const { jsonResponse, httpStatusCode } = await createPaymentSession("PAYPAL", newReservation, req.user.id);
 
     await Reservation.findByIdAndUpdate(newReservation._id, { paypalOrderId: jsonResponse?.id });
-    
+
     res.status(httpStatusCode).json(jsonResponse);
 }
 const createPaymentSession = async (paymentMethod, reservation, userId) => {

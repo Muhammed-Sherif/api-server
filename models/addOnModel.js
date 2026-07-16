@@ -18,4 +18,4 @@ const addOnSchema = new Schema({
     timestamps: true
 });
 
-export const AddOn = model('AddOn', addOnSchema);
+export default model('AddOn', addOnSchema);
