@@ -27,38 +27,41 @@ export const getAllReservations = async (req, res) => {
     });
 }
 export const createReservationForService = async (req, res) => {
-      // Cookies that have not been signed
-    req.body.services.forEach(item => {
-        if (!Service.findById(item.serviceId)) {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Service not found'
-            });
-        }
-
-    });
-    let addOns = [];
-    req.body.addOns.forEach(id => {
-        addOn = AddOn.findById(id);
-        if (!addOn) {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Add-on not found'
-            });
-        }
-        addOns.push(addOn);
-
-    });
-
+    // validate services exists
+    const servicesIds = req.body.services.map((service) => service.id)
+    const services = await Services.find({
+        _id: { $in: servicesIds }
+    })
+    if(services.length !== servicesIds.length) {
+        res.status(404).json({
+            status : 'fail',
+            message : 'some services not found'
+        })
+    }
+    // validate addons exists 
+    const addOnsIds = req.body.addOns.map((addOn) => addOn.id)
+    const addOns = await AddOns.find({
+        _id: { $in: addOnsIds }
+    })
+    if(addOns.length !== addOnsIds.length) {
+        res.status(404).json({
+            status : 'fail',
+            message : 'some addons not found'
+        })
+    }
+    //  create new reservation
     const newReservation = await Reservation.create({
         services: req.body.services,
         user: req.user.id,
         addOns: req.body.addOns,
         reservationDate: req.body?.reservationDate || new Date(),
-        customerInfo: req.body.customerInfo,
+        details: req.body.details,
     });
+    // create payment session
     const { jsonResponse, httpStatusCode } = await createPaymentSession("PAYPAL", newReservation, req.user.id);
+
     await Reservation.findByIdAndUpdate(newReservation._id, { paypalOrderId: jsonResponse?.id });
+    
     res.status(httpStatusCode).json(jsonResponse);
 }
 const createPaymentSession = async (paymentMethod, reservation, userId) => {
@@ -101,7 +104,7 @@ const createPaymentSession = async (paymentMethod, reservation, userId) => {
             intent: CheckoutPaymentIntent.Capture,
             purchaseUnits: [
                 {
-                    reservationId : reservation._id.toString(),
+                    reservationId: reservation._id.toString(),
                     amount: {
                         currencyCode: "USD",
                         value: total.toFixed(2),

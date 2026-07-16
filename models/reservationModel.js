@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const reservationSchema = new Schema({
     services: [
         {
-            serviceId: {
+          id: {
                 type: Schema.Types.ObjectId,
                 ref: 'Service',
                 required: [true, 'Service is required'],   
@@ -20,11 +20,9 @@ const reservationSchema = new Schema({
         ref: 'User',
         required: [true, 'User is required'],
     },
-    customerInfo: {
-        name: String,
-        phone: String,
-        email: String,
-        projectDescription: String
+    details: {
+        type: String,
+        required: [true, 'Details are required']
     },
     status: {
         type: String,
